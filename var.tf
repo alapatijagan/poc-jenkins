@@ -3,15 +3,11 @@
 variable "aws_region" {
   default = "us-east-1"
 }
-variable "AMIS" {
-  type = "map"
-  default = {
-    us-east-1 = "ami-cd0f5cb6"
-    us-east-2 = "ami-10547475"
-    us-west-1 = "ami-09d2fb69"
-    us-west-2 = "ami-6e1a0117"
-  }
-}
+
+variable "ami_id" {}
+variable "instance_type" {}
+
+
 #VPC settings
 
 variable "cidr" {
