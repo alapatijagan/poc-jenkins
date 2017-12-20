@@ -1,0 +1,88 @@
+{
+  "variables": {
+    "vpc_id": "vpc-89b3e0e0",
+    "chef_server_url": " https://10.72.39.115/organizations",
+    "aws_region": "ca-central-1",
+    "instance_type": "t2.micro",
+    "validation_key_file": "/etc/chef/client.pem",
+    "validation_client_name": "service",
+    "subnet_id": "subnet-fc072a95",
+    "build_number": "01",
+    "kms_key_id":"arn:aws:kms:ca-central-1:592281209805:key/e3896899-5c57-46dc-afa3-bdda91a88135"
+  },
+  "builders": [
+    {
+      "vpc_id": "{{user `vpc_id`}}",
+      "type": "amazon-ebs",
+      "instance_type": "{{user `instance_type`}}",
+      "subnet_id": "{{user `subnet_id`}}",
+      "ami_name": "UBUNTU_1604_X64_V{{user `build_number`}}",
+      "ssh_username": "ubuntu",
+      "ssh_private_ip": true,
+      "encrypt_boot": true,
+      "kms_key_id": "{{user `kms_key_id`}}",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "*ubuntu-xenial-16.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["592281209805"],
+        "most_recent": true
+      },
+      "ami_block_device_mappings": [ {
+            "device_name": "/dev/sda1",
+            "volume_type": "gp2",
+            "volume_size": 40,
+            "delete_on_termination": true
+        } ],
+      "launch_block_device_mappings": [ {
+            "device_name": "/dev/sda1",
+            "volume_type": "gp2",
+            "volume_size": 40,
+            "delete_on_termination": true
+        } ],
+      "tags": {
+        "buildnumber": "{{user `build_number`}}",
+        "createdon": "{{timestamp}}",
+        "createdby": "Packer",
+        "os": "ubuntu1604x64",
+        "stage":"Complete"
+      },
+      "run_tags": {
+        "name": "Packer Imaging",
+        "buildnumber": "{{user `build_number`}}",
+        "createdon": "{{timestamp}}",
+        "createdby": "Packer",
+        "os": "ubuntu1604x64",
+        "stage":"Build"
+      },
+      "run_volume_tags": {
+        "name": "Packer Imaging",
+        "buildnumber": "{{user `build_number`}}",
+        "createdon": "{{timestamp}}",
+        "createdby": "Packer",
+        "os": "ubuntu1604x64",
+        "stage":"Build"
+      },
+      "ami_regions": [
+        "ca-central-1"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "chef-client",
+      "server_url": "{{user `chef_server_url`}}",
+      "guest_os_type": "unix",
+      "node_name": "UBUNTU_1604_X64-packer-buildnode-{{timestamp}}",
+      "validation_client_name": "{{user `validation_client_name`}}",
+      "validation_key_path": "{{user `validation_key_file`}}",
+      "ssl_verify_mode": "verify_none",
+      "run_list": "role[ubuntu_image_server]",
+      "chef_environment": "image_prep",
+      "pause_before": "10s",
+      "prevent_sudo": false
+    }
+  ]
+}
