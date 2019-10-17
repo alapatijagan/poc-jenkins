@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    properties([
+        pipelineTriggers([
+            [$class: 'GenericTrigger',
+                genericVariables: [
+                    [key: 'reference', value: '$.ref'],
+                    [
+                        key: 'changed_files',
+                        value: '$.commits[*].['modified','added','removed'][*]',
+                        expressionType: 'JSONPath', //Optional, defaults to JSONPath
+//                         regexpFilter: '', //Optional, defaults to empty string
+//                         defaultValue: '' //Optional, defaults to empty string
+                    ]
+                ],
+                printContributedVariables: true,
+                printPostContent: true,
+                regexpFilterText: '$changed_files',
+                regexpFilterExpression: '.*project2+?.*'
+            ]
+        ])
+    ])
+
+    stages {
+        stage ('Clone') {
+            steps {
+                sh "ls -lrta"
+                deleteDir()
+                sh "ls -lrta"
+                checkout scm
+    //                 git branch: 'master', url: "https://github.com/jfrog/project-examples.git"
+                sh "ls -lrta"
+            }
+        }
+    }
+    post {
+        always{
+            echo "Cleaning Workspace"
+            cleanWs()
+        }
+    }
+
+}
