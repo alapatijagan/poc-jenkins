@@ -29,25 +29,13 @@ pipeline {
                     // regexpFilter("") //Optional, defaults to empty string
                     // defaultValue("") //Optional, defaults to empty string
                 }
-            },
-            genericRequestVariables {
-                genericRequestVariable {
-                    key("requestParameterName")
-                    regexpFilter("")
-                }
-            },
-            genericHeaderVariables {
-                genericHeaderVariable {
-                    key("requestHeaderName")
-                    regexpFilter("")
-                }
             }
             // token('abc123')
-//             printContributedVariables(true)
-//             printPostContent(true)
+            printContributedVariables(true)
+            printPostContent(true)
             // silentResponse(false)
-//             regexpFilterText("\$changed_files")
-//             regexpFilterExpression('.*project1+?.*')
+            regexpFilterText("\$changed_files")
+            regexpFilterExpression('.*project1+?.*')
         ])
     }
     stages {
