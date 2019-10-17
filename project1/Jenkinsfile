@@ -31,7 +31,7 @@ pipeline {
                 }
             }
             // token('abc123')
-            printContributedVariables(true)
+            printContributedVariables: true
             printPostContent(true)
             // silentResponse(false)
             regexpFilterText("\$changed_files")
