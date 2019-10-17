@@ -20,7 +20,7 @@ pipeline {
 //         ])
 //     }
     triggers {
-        genericTrigger([
+        GenericTrigger([
             genericVariables {
                 genericVariable {
                     key('changed_files')
