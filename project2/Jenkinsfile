@@ -1,7 +1,6 @@
 pipeline {
     agent any
-
-    properties([
+    options {
         pipelineTriggers([
             [$class: 'GenericTrigger',
                 genericVariables: [
@@ -10,8 +9,8 @@ pipeline {
                         key: 'changed_files',
                         value: '$.commits[*].[\'modified\',\'added\',\'removed\'][*]',
                         expressionType: 'JSONPath' //Optional, defaults to JSONPath
-//                         regexpFilter: '', //Optional, defaults to empty string
-//                         defaultValue: '' //Optional, defaults to empty string
+                        // regexpFilter: '', //Optional, defaults to empty string
+                        // defaultValue: '' //Optional, defaults to empty string
                     ]
                 ],
                 printContributedVariables: true,
@@ -20,8 +19,7 @@ pipeline {
                 regexpFilterExpression: '.*project2+?.*'
             ]
         ])
-    ])
-
+    }
     stages {
         stage ('Clone') {
             steps {
@@ -29,7 +27,7 @@ pipeline {
                 deleteDir()
                 sh "ls -lrta"
                 checkout scm
-    //                 git branch: 'master', url: "https://github.com/jfrog/project-examples.git"
+                // git branch: 'master', url: "https://github.com/jfrog/project-examples.git"
                 sh "ls -lrta"
             }
         }
