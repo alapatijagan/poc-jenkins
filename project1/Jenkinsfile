@@ -29,12 +29,12 @@ pipeline {
                     // regexpFilter("") //Optional, defaults to empty string
                     // defaultValue("") //Optional, defaults to empty string
                 }
-            },
+            }
             // token('abc123')
-            printContributedVariables(true),
-            printPostContent(true),
+            printContributedVariables(true)
+            printPostContent(true)
             // silentResponse(false)
-            regexpFilterText("\$changed_files"),
+            regexpFilterText("\$changed_files")
             regexpFilterExpression('.*project1+?.*')
         ])
     }
