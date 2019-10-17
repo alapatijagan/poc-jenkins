@@ -8,7 +8,7 @@ pipeline {
                     [key: 'reference', value: '$.ref'],
                     [
                         key: 'changed_files',
-                        value: "$.commits[*].['modified','added','removed'][*]",
+                        value: '$.commits[*].[\'modified\',\'added\',\'removed\'][*]',
                         expressionType: 'JSONPath' //Optional, defaults to JSONPath
 //                         regexpFilter: '', //Optional, defaults to empty string
 //                         defaultValue: '' //Optional, defaults to empty string
@@ -16,8 +16,8 @@ pipeline {
                 ],
                 printContributedVariables: true,
                 printPostContent: true,
-                regexpFilterText: "$changed_files",
-                regexpFilterExpression: ".*project1+?.*"
+                regexpFilterText: '$changed_files',
+                regexpFilterExpression: '.*project1+?.*'
             ]
         ])
     ])
