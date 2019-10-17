@@ -23,11 +23,12 @@ pipeline {
         genericTrigger {
             genericVariables {
                 genericVariable {
-                key('changed_files')
-                value('$.commits[*].[\'modified\',\'added\',\'removed\'][*]')
-                expressionType("JSONPath") //Optional, defaults to JSONPath
-                // regexpFilter("") //Optional, defaults to empty string
-                // defaultValue("") //Optional, defaults to empty string
+                    key('changed_files')
+                    value('$.commits[*].[\'modified\',\'added\',\'removed\'][*]')
+                    expressionType("JSONPath") //Optional, defaults to JSONPath
+                    // regexpFilter("") //Optional, defaults to empty string
+                    // defaultValue("") //Optional, defaults to empty string
+                }
             }
             // token('abc123')
             printContributedVariables(true)
