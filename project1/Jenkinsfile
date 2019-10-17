@@ -31,11 +31,11 @@ pipeline {
                 }
             }
             // token('abc123')
-            printContributedVariables(true)
-            printPostContent(true)
+//             printContributedVariables(true)
+//             printPostContent(true)
             // silentResponse(false)
-            regexpFilterText("\$changed_files")
-            regexpFilterExpression('.*project1+?.*')
+//             regexpFilterText("\$changed_files")
+//             regexpFilterExpression('.*project1+?.*')
         ])
     }
     stages {
@@ -45,6 +45,7 @@ pipeline {
                 deleteDir()
                 sh "ls -lrta"
                 checkout scm
+                echo "changed_files: ${changed_files}"
                 // git branch: 'master', url: "https://github.com/jfrog/project-examples.git"
                 sh "ls -lrta"
             }
