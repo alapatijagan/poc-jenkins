@@ -29,13 +29,13 @@ pipeline {
                     // regexpFilter("") //Optional, defaults to empty string
                     // defaultValue("") //Optional, defaults to empty string
                 }
-            }
+            },
             genericRequestVariables {
                 genericRequestVariable {
                     key("requestParameterName")
                     regexpFilter("")
                 }
-            }
+            },
             genericHeaderVariables {
                 genericHeaderVariable {
                     key("requestHeaderName")
