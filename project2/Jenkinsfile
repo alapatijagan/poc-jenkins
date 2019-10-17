@@ -1,24 +1,41 @@
 pipeline {
     agent any
-    options {
-        pipelineTriggers([
-            [$class: 'GenericTrigger',
-                genericVariables: [
-                    [key: 'reference', value: '$.ref'],
-                    [
-                        key: 'changed_files',
-                        value: '$.commits[*].[\'modified\',\'added\',\'removed\'][*]',
-                        expressionType: 'JSONPath' //Optional, defaults to JSONPath
-                        // regexpFilter: '', //Optional, defaults to empty string
-                        // defaultValue: '' //Optional, defaults to empty string
-                    ]
-                ],
-                printContributedVariables: true,
-                printPostContent: true,
-                regexpFilterText: '$changed_files',
-                regexpFilterExpression: '.*project2+?.*'
-            ]
-        ])
+//     options {
+//         pipelineTriggers([
+//             [$class: 'GenericTrigger',
+//                 genericVariables: [
+//                     [
+//                         key: 'changed_files',
+//                         value: '$.commits[*].[\'modified\',\'added\',\'removed\'][*]',
+//                         expressionType: 'JSONPath' //Optional, defaults to JSONPath
+//                         // regexpFilter: '', //Optional, defaults to empty string
+//                         // defaultValue: '' //Optional, defaults to empty string
+//                     ]
+//                 ],
+//                 printContributedVariables: true,
+//                 printPostContent: true,
+//                 regexpFilterText: '$changed_files',
+//                 regexpFilterExpression: '.*project2+?.*'
+//             ]
+//         ])
+//     }
+    triggers {
+        genericTrigger {
+            genericVariables {
+                genericVariable {
+                key('changed_files')
+                value('$.commits[*].[\'modified\',\'added\',\'removed\'][*]')
+                expressionType("JSONPath") //Optional, defaults to JSONPath
+                // regexpFilter("") //Optional, defaults to empty string
+                // defaultValue("") //Optional, defaults to empty string
+            }
+            // token('abc123')
+            printContributedVariables(true)
+            printPostContent(true)
+            // silentResponse(false)
+            regexpFilterText("\$changed_files")
+            regexpFilterExpression('.*project2+?.*')
+        }
     }
     stages {
         stage ('Clone') {
